@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="../../favicon.ico">
-        <title>Dashboard Template for Bootstrap</title>
-        <!-- Bootstrap core CSS -->
-        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Custom styles for this template -->
-        <link href="dashboard.css" rel="stylesheet">
-        <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-        <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>Dashboard Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-    </head>
-    <body>
+</head>
+
+<body>
+    <?php include("dbconn.php");?>
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="#">Inventory</a>
                 </div>
@@ -64,19 +67,26 @@
                                     <h3 class="panel-title"></h3>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="form-group">
-                                        <label for="Engineer">Engineer : </label>
-                                        <br>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" disabled>
+                                    <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
+                                        <div class="form-group">
+                                            <label for="Engineer">Engineer : </label>
+                                            <br>
+                                            <div class="col-md-6">
+                                                <input class="form-control" type="text" disabled value="" id="locations">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <select class="form-control" name="locations" id="names" onchange="changeLanjiao($('#names').val())">
+                                                    <?php
+                                                        $sql=mysql_query("SELECT loc_code FROM location_master");
+                                                        while ($locations = mysql_fetch_assoc($sql))
+                                                        {
+                                                            echo '<option value="'.$locations['loc_code'].'">'.$locations['loc_code'].'</option>';
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="col-md-2">
-                                            <select class="form-control" name="Engineer" id="">
-                                                <option value="loc214">loc214</option>
-                                                <option value="loc215">loc215</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    </form>
                                     <div class="form-group">
                                         <br>
                                         <label for="returnid">Return ID : </label>
@@ -211,8 +221,8 @@
                                         </div>
                                     </div>
                                 </form>
-                                
-                                
+
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -230,11 +240,42 @@
                 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
                 <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
                 <script>
-                jQuery(document).ready(function($) {
-                $(".clickable-row").click(function() {
-                $('#myModal').modal('show');
-                });
-                });
+                    jQuery(document).ready(function ($) {
+                        $(".clickable-row").click(function () {
+                            $('#myModal').modal('show');
+                        });
+                    });
+
+                    function selchange(selval) {
+                        {
+                            console.log(selval);
+                            e.preventDefault();
+                            window.location.href = "stockreturn.php?locations=" + selval;
+                        }
+                    };
+
+                    function changeLanjiao(val) {
+                        console.log(val);
+                        $.get("get.php", {
+                                names: val
+                            })
+                            .done(function (data) {
+//                            var lengthss = data.length;
+////                            for(var i = 0; i< lengthss; i++){
+////                                $('#locations').html("<select value='"+data[i].locations+"'>"+data[i].locations+"</select>")
+////                                data.locations;
+////                                data.name;
+////                            }
+                           var datas = jQuery.parseJSON(data);
+                            console.log(datas);
+                            $('#locations').val(datas.loc);
+//                            var panjang = datas.loc.length;
+//                            for(var i =0; i<panjang ; i++){
+//                                console.log(datas.loc[i]);
+//                            }
+                            });
+                    }
                 </script>
-            </body>
-        </html>
+</body>
+
+</html>
