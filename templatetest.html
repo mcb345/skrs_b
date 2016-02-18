@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="cm.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <header>
+                <a href="#">Inventory</a>
+            </header>
+        </div>
+        <nav id="sideNavParent" class="cm-wrapper">
+            <ul>
+                <li class="cm-brand">
+                    <a href="#" class="visible-sm visble-md visible-lg">
+                    Test
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#">
+                        <span class="visible-sm visble-md visible-lg">Music</span>
+                        <i class="glyphicon glyphicon-home visible-xs"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#ulGenres">
+                        <span class="visible-sm visble-md visible-lg">Genre&nbsp;<b class="caret"></b></span>
+                        <i class="glyphicon glyphicon-erase visible-xs"></i>
+                    </a>
+                    <div class="visible-sm visble-md visible-lg">
+                        <ul id="ulGenres" class="collapse" data-parent="#sideNavParent">
+                            <li>
+                                <a href="#">All1</a>
+                            </li>
+                            <li>
+                                <a href="#">Test Genre</a>
+                            </li>
+                            <li>
+                                <a href="#">Test Genre</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="visible-sm visble-md visible-lg">Song</span>
+                        <i class="glyphicon glyphicon-hourglass visible-xs"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-xs-10 col-md-10 col-lg-10">
+                <h1>My Music</h1>
+                <p>This is all the information is being viewed.</p>
+                <ul>
+                    <li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li>
+                    <li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li>
+                    <li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li>
+                    <li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
