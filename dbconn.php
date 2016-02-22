@@ -1,6 +1,6 @@
 <?php
   $username = "root";
-    $password = "";
+    $password = "12345";
     $hostname = "";
 
     $mycon = mysql_connect($hostname, $username, $password) or die("could not connect to database");

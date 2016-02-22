@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Transfer Request</title>
 
     <!-- Bootstrap core CSS -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -29,7 +29,21 @@
 </head>
 
 <body>
+    <?php include('dbconn.php');
+        session_start();
+        global $username;
+        $username = $_SESSION['username'];
+//         if(isset($username)){
+//             $sqls=mysql_query("SELECT position from user_master WHERE username='$username'");
+//         if (! $sqls){
+//            echo mysql_error();
+//         }
+//         $ress=mysql_fetch_row(sqls);
+//         global $positions;
+//         $positions = $ress[0];
 
+// }
+    ?>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -51,7 +65,10 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar" id="navbar">
                 <ul class="nav nav-sidebar">
-                    <li class="active"><a href="transferreq.php">Transfer Request</a></li>
+                        <li class="active"><a href="transferreq.php">Transfer Request</a></li>
+                        <li><a href="stockreturn.php">Stock Return</a></li>
+                        <li><a href="view_stock_return.php">View Stock Return</a></li>   
+                        <li><a href="logout.php">Logout</a></li>               
                 </ul>
                 <!--
           <ul class="nav nav-sidebar">
@@ -63,7 +80,9 @@
 
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <h1 class="page-header">Transfer Request</h1>
+                <h1 class="page-header">Transfer Request,Welcome <?php
+                                            echo $username;
+                                         ?></h1>
 
 
                 <div id="error">
@@ -100,17 +119,16 @@
                                                 <label for="fromloc">From Location :</label>
                                                 <br>
                                                 <div class="col-md-6">
-                                                    <input type="text" class="form-control" disabled value="">
+                                                    <input type="text" class="form-control" disabled value="" id="">
                                                 </div>
                                                 <div class="col-md-6">
                                                     <select class="form-control" name="fromloc" id="fromloc">
                                                         <?php
-                                                        include("dbconn.php");
-                                                        $sql=mysql_query("SELECT loc_code FROM location_master");
-                                                        global $fromlocation;
-                                                        while ($fromlocation = mysql_fetch_assoc($sql))
+                                                        
+                                                        $sql=mysql_query("SELECT username FROM user_master WHERE position='engineer'");
+                                                        while ($result = mysql_fetch_assoc($sql))
                                                         {
-                                                            echo '<option value="'.$fromlocation['loc_code'].'">'.$fromlocation['loc_code'].'</option>';
+                                                            echo '<option value="'.$result['username'].'">'.$result['username'].'</option>';
                                                         }
                                                         ?>
                                                     </select>
@@ -120,15 +138,15 @@
                                                 <label for="toloc">To Location :</label>
                                                 <br>
                                                 <div class="col-md-6">
-                                                    <input type="text" class="form-control" disabled>
+                                                    <input type="text" class="form-control" disabled id="engone" value="">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <select class="form-control" name="toloc" id="toloc">
+                                                    <select class="form-control" name="toloc" id="toloc" onchange="changecode($('#toloc').val());">
                                                         <?php
-                                                        $sql=mysql_query("SELECT loc_code FROM location_master");
+                                                        $sql=mysql_query("SELECT username FROM user_master WHERE position='engineer'");
                                                         while ($result = mysql_fetch_assoc($sql))
                                                         {
-                                                            echo '<option value="'.$result['loc_code'].'">'.$result['loc_code'].'</option>';
+                                                            echo '<option value="'.$result['username'].'">'.$result['username'].'</option>';
                                                         }
                                                         ?>
                                                     </select>
@@ -209,6 +227,7 @@
                                             <button type="button" class="btn btn-default" onclick="submitOrder()">Submit</button>
                                         </div>
                                         <div class="col-md-6">
+
                                             <button type="button" class="btn btn-primary">Approve</button>&nbsp;
                                             <button type="button" class="btn btn-danger">Reject</button>
                                         </div>
@@ -286,6 +305,18 @@
                     $("#error").slideUp(2000);
                 });
             };
+
+            function changecode(val) {
+                        console.log(val);
+                        $.get("transferget.php", {
+                                usernames: val
+                            })
+                            .done(function (data) {
+                                console.log(data);
+                                $('#engone').val(data);
+                            
+                            });
+                    };
         </script>
 </body>
 

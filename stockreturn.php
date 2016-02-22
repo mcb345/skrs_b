@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Stock Return (Engineer)</title>
     <!-- Bootstrap core CSS -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -46,6 +46,7 @@
                     <ul class="nav nav-sidebar">
                         <li><a href="transferreq.php">Transfer Request</a></li>
                         <li class="active"><a href="stockreturn.php">Stock Return</a></li>
+                        <li><a href="view_stock_return.php">View Stock Return</a></li>
                     </ul>
                     <!--
                     <ul class="nav nav-sidebar">
@@ -72,10 +73,13 @@
                                             <label for="Engineer">Engineer : </label>
                                             <br>
                                             <div class="col-md-6">
-                                                <input class="form-control" type="text" disabled value="" id="locations">
+                                                <!-- <input class="form-control" type="text" disabled value="" id="locations"> -->
+                                                <select name="" id="locations" class="form-control">
+                                                    
+                                                </select>
                                             </div>
                                             <div class="col-md-2">
-                                                <select class="form-control" name="locations" id="names" onchange="changeLanjiao($('#names').val())">
+                                                <select class="form-control" name="locations" id="names" onchange="changecode($('#names').val())">
                                                     <?php
                                                         $sql=mysql_query("SELECT loc_code FROM location_master");
                                                         while ($locations = mysql_fetch_assoc($sql))
@@ -254,9 +258,9 @@
                         }
                     };
 
-                    function changeLanjiao(val) {
+                    function changecode(val) {
                         console.log(val);
-                        $.get("get.php", {
+                        $.get("gets.php", {
                                 names: val
                             })
                             .done(function (data) {
@@ -266,9 +270,14 @@
 ////                                data.locations;
 ////                                data.name;
 ////                            }
-                           var datas = jQuery.parseJSON(data);
-                            console.log(datas);
-                            $('#locations').val(datas.loc);
+                            var datas = jQuery.parseJSON(data);
+                             console.log(datas);
+
+                             for (var i = 0; i<datas.length; i++) {
+
+                                $('#locations').append("<option>"+datas[i].username+"</option>");
+                             };
+                            //$('#locations').html(datas);
 //                            var panjang = datas.loc.length;
 //                            for(var i =0; i<panjang ; i++){
 //                                console.log(datas.loc[i]);

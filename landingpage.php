@@ -9,6 +9,29 @@
 </head>
 
 <body>
+<?php 
+include("dbconn.php");
+
+if(isset($_POST['submit']))
+{
+    $username = $_POST['un'];
+    $password = $_POST['pw'];
+    
+               $sql = mysql_query("SELECT username,position FROM user_master WHERE username='$username' AND password='$password'");
+               $numResult =mysql_num_rows($sql);
+              if($numResult!=1)
+              {
+                echo 'wrong username or password or user type';
+              }
+
+              else{
+            session_start();
+              $_SESSION['username']=$username;
+              
+              header("location:transferreq.php");
+              }
+}
+    ?>
     <div class="container-fluid">
         <nav id="sideNavParent" class="cm-landing-header">
             <div class="row ">
@@ -67,12 +90,12 @@
                             <img src="login.png" class="img-responsive cm-login-image">
                         </div>
                     </div>
-                    <form action="">
+                    <form action="" method="POST">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="Username">Username :</label>
-                                    <input type="text" class="form-control" id="Username" placeholder="Username..." required>
+                                    <input type="text" class="form-control" name="un" id="Username" placeholder="Username..." required>
                                 </div>
                             </div>
                         </div>
@@ -80,14 +103,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="Username">Password :</label>
-                                    <input type="password" class="form-control" id="Password" placeholder="Password..." required>
+                                    <input type="password" class="form-control" name="pw" id="Password" placeholder="Password..." required>
                                 </div>
                             </div>
                         </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary" name="submit">Login</button>
                 </div>
                 </form>
             </div>
